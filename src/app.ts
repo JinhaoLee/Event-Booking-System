@@ -40,10 +40,6 @@ class App {
         const tokenWithBearer = req.headers.authorization || "";
         const token = tokenWithBearer.split(" ")[1];
         const user = <IUser>getUser(token);
-        // we could also check user roles/permissions here
-        if (!user) {
-          throw new Error("you must be logged in to query this schema");
-        }
         return {
           user
         };

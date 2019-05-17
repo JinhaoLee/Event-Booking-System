@@ -6,7 +6,11 @@ import { IContext } from "./../../interfaces";
 @Resolver(Event)
 class EventResolver {
   @Query(returns => [Event])
-  async events(): Promise<Event[]> {
+  async events(@Ctx() ctx: IContext): Promise<Event[]> {
+    const { user } = ctx;
+    if (!user) {
+      throw new Error("you must be logged in to query this schema");
+    }
     try {
       return await EventModel.find();
     } catch (error) {
@@ -19,10 +23,14 @@ class EventResolver {
     @Arg("eventInput") eventInput: AddEventInput,
     @Ctx() ctx: IContext
   ): Promise<Event> {
+    const { user } = ctx;
+    if (!user) {
+      throw new Error("you must be logged in to query this schema");
+    }
     const { title, description, price, date } = eventInput;
     let createdEvent;
     try {
-      const creator = await UserModel.findById(ctx.user._id);
+      const creator = await UserModel.findById(user._id);
       if (!creator) {
         throw new Error("User not found");
       }
