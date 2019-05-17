@@ -1,5 +1,3 @@
-import { Request } from "apollo-env";
-
 export interface IUser {
   _id: string;
   email: string;

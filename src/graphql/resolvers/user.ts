@@ -3,7 +3,6 @@ import { UserModel } from "../../models";
 import { User, AddUserInput, LoginResponse } from "../schemas";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import userModel from "../../models/user";
 
 @Resolver(User)
 class UserResolver {
@@ -37,12 +36,12 @@ class UserResolver {
     }
   }
 
-  @Mutation(returens => LoginResponse)
+  @Mutation(returns => LoginResponse)
   async login(
     @Arg("userInput") userInput: AddUserInput
   ): Promise<LoginResponse> {
     const { email, password } = userInput;
-    const user = await userModel.findOne({ email });
+    const user = await UserModel.findOne({ email });
 
     if (!user) {
       throw new Error("Invalid email");

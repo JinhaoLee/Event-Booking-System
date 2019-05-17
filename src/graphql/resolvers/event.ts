@@ -8,8 +8,7 @@ class EventResolver {
   @Query(returns => [Event])
   async events(): Promise<Event[]> {
     try {
-      const events = await EventModel.find();
-      return events;
+      return await EventModel.find();
     } catch (error) {
       throw new Error();
     }

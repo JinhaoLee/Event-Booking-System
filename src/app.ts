@@ -1,15 +1,11 @@
-import { IUser } from "./interfaces";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
-import {
-  EventResolver,
-  UserResolver,
-  BookingResolver
-} from "./graphql/resolvers";
+
+import { IUser } from "./interfaces";
 import { IContext } from "./interfaces";
+import { EventResolver, UserResolver, BookingResolver } from "./graphql";
 import getUser from "./helpers/getUser";
 
 class App {
@@ -21,9 +17,7 @@ class App {
   }
 
   private config(): void {
-    // initialize configuration
     dotenv.config();
-    // config port
     this.PORT = process.env.PORT || 3000;
   }
 
@@ -35,7 +29,7 @@ class App {
   }
 
   public async startServer() {
-    // ... Building schema here
+    // Building schema here
     const schema = await buildSchema({
       resolvers: [EventResolver, UserResolver, BookingResolver]
     });

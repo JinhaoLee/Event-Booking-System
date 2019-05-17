@@ -1,5 +1,6 @@
 import { ObjectType, Field, ID } from "type-graphql";
-import { Event, User } from ".";
+import { User, Event } from ".";
+import "reflect-metadata";
 
 @ObjectType()
 class Booking {
@@ -19,4 +20,4 @@ class Booking {
   updatedAt: Date;
 }
 
-export default Booking;
+export { Booking };
