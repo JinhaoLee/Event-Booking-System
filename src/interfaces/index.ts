@@ -1,24 +1,27 @@
-export interface IUser {
+import { ObjectId } from "mongodb";
+import { Document } from "mongoose";
+
+export interface IUser extends Document {
   _id: string;
   email: string;
   password: string;
   createdAt: Date;
-  events: IEvent[];
+  events: ObjectId[];
 }
 
-export interface IEvent {
+export interface IEvent extends Document {
   _id: string;
   title: string;
   description: string;
   price: number;
   date: Date;
-  creator: IUser;
+  creator: ObjectId;
 }
 
-export interface IBooking {
+export interface IBooking extends Document {
   _id: string;
-  event: IEvent;
-  user: IUser;
+  event: ObjectId;
+  user: ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }

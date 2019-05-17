@@ -1,23 +1,30 @@
-import { Arg, Query, Resolver, Mutation } from "type-graphql";
+import { Arg, Resolver, Mutation } from "type-graphql";
 import { UserModel } from "../../models";
-import { User, AddUserInput, LoginResponse } from "../schemas";
+import {
+  User,
+  AddUserInput,
+  LoginResponse,
+  RegisterResponse
+} from "../schemas";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 @Resolver(User)
 class UserResolver {
-  @Query(returns => [User])
-  async users(): Promise<User[]> {
-    try {
-      const users = await UserModel.find();
-      return users;
-    } catch (error) {
-      throw new Error();
-    }
-  }
+  // @Query(returns => [User])
+  // async users(): Promise<User[]> {
+  //   try {
+  //     const users = await UserModel.find();
+  //     return users;
+  //   } catch (error) {
+  //     throw new Error();
+  //   }
+  // }
 
-  @Mutation(returns => User)
-  async register(@Arg("userInput") userInput: AddUserInput): Promise<User> {
+  @Mutation(returns => RegisterResponse)
+  async register(
+    @Arg("userInput") userInput: AddUserInput
+  ): Promise<RegisterResponse> {
     try {
       const { email, password } = userInput;
       const existingUser = await UserModel.findOne({ email });
@@ -30,7 +37,9 @@ class UserResolver {
         password: hashedPassword
       });
       await user.save();
-      return user;
+      return {
+        message: "success"
+      };
     } catch (error) {
       throw new Error(error.message);
     }
@@ -64,8 +73,7 @@ class UserResolver {
       }
     );
     return {
-      token,
-      user
+      token
     };
   }
 }

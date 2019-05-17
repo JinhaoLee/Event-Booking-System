@@ -1,14 +1,18 @@
 import { IContext } from "./../../interfaces";
 import { Resolver, Query, Mutation, Arg, Ctx } from "type-graphql";
-import { BookingModel, EventModel } from "../../models";
+import { BookingModel, EventModel, UserModel } from "../../models";
 import { Booking, Event } from "../schemas";
+import { transformEvent } from "./merge";
 
 @Resolver(Booking)
 class BookingResolver {
   @Query(returns => [Booking])
   async bookings(): Promise<Booking[]> {
     try {
-      return await BookingModel.find();
+      // @ts-ignore
+      return await BookingModel.find()
+        .populate("user")
+        .populate("event");
     } catch (error) {
       throw new Error();
     }
@@ -19,21 +23,29 @@ class BookingResolver {
     @Arg("eventId") eventId: string,
     @Ctx() ctx: IContext
   ): Promise<Booking> {
+    const { user } = ctx;
     const fetchedEvent = await EventModel.findById(eventId);
+    const fetchedUser = await UserModel.findById(user._id);
     const booking = new BookingModel({
-      user: ctx.user._id,
+      user: fetchedUser,
       event: fetchedEvent
-    });
+    })
+      .populate("user")
+      .populate("event");
     await booking.save();
+    // @ts-ignore
     return booking;
   }
 
-  @Mutation(returns => Event)
-  async cancelBooking(@Arg("bookingId") bookingId: string): Promise<Event> {
+  @Mutation(returns => Booking)
+  async cancelBooking(@Arg("bookingId") bookingId: string): Promise<Booking> {
     try {
-      const booking = await BookingModel.findById(bookingId).populate("event");
+      const booking = await BookingModel.findById(bookingId)
+        .populate("event")
+        .populate("user");
       await BookingModel.deleteOne({ _id: bookingId });
-      return booking.event;
+      // @ts-ignore
+      return booking;
     } catch (error) {
       throw error;
     }

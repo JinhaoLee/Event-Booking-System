@@ -1,5 +1,5 @@
 import { IEvent } from "./../interfaces";
-import { Schema, Document, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const eventSchema = new Schema({
   title: {
@@ -24,6 +24,6 @@ const eventSchema = new Schema({
   }
 });
 
-const eventModel = model<IEvent & Document>("Event", eventSchema);
+const eventModel = model<IEvent>("Event", eventSchema);
 
 export default eventModel;

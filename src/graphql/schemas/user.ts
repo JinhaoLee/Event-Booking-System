@@ -33,9 +33,12 @@ class AddUserInput implements Partial<User> {
 class LoginResponse {
   @Field()
   token: string;
-
-  @Field()
-  user: User;
 }
 
-export { User, AddUserInput, LoginResponse };
+@ObjectType()
+class RegisterResponse {
+  @Field()
+  message: string;
+}
+
+export { User, AddUserInput, LoginResponse, RegisterResponse };
