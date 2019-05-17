@@ -1,3 +1,4 @@
+import { IUser } from "./interfaces";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
@@ -41,10 +42,10 @@ class App {
     // Create the GraphQL server
     const server = new ApolloServer({
       schema,
-      context: ({ req }) => {
+      context: ({ req }): IContext => {
         const tokenWithBearer = req.headers.authorization || "";
         const token = tokenWithBearer.split(" ")[1];
-        const user = getUser(token);
+        const user = <IUser>getUser(token);
         // we could also check user roles/permissions here
         if (!user) {
           throw new Error("you must be logged in to query this schema");
