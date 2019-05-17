@@ -2,7 +2,6 @@ import { IContext } from "./../../interfaces";
 import { Resolver, Query, Mutation, Arg, Ctx } from "type-graphql";
 import { BookingModel, EventModel, UserModel } from "../../models";
 import { Booking, Event } from "../schemas";
-import { transformEvent } from "./merge";
 
 @Resolver(Booking)
 class BookingResolver {

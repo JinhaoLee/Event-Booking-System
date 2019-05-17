@@ -1,4 +1,4 @@
-import { Arg, Resolver, Mutation } from "type-graphql";
+import { Arg, Query, Resolver, Mutation } from "type-graphql";
 import { UserModel } from "../../models";
 import {
   User,
@@ -21,7 +21,7 @@ class UserResolver {
   //   }
   // }
 
-  @Mutation(returns => RegisterResponse)
+  @Query(returns => RegisterResponse)
   async register(
     @Arg("userInput") userInput: AddUserInput
   ): Promise<RegisterResponse> {
