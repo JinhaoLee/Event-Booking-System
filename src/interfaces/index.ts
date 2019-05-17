@@ -1,3 +1,5 @@
+import { Request } from "apollo-env";
+
 export interface IUser {
   _id: string;
   email: string;
@@ -24,5 +26,5 @@ export interface IBooking {
 }
 
 export interface IContext {
-  userId: string;
+  user: IUser;
 }

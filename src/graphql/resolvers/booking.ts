@@ -21,7 +21,7 @@ class BookingResolver {
   ): Promise<Booking> {
     const fetchedEvent = await EventModel.findById(eventId);
     const booking = new BookingModel({
-      user: ctx.userId,
+      user: ctx.user._id,
       event: fetchedEvent
     });
     await booking.save();

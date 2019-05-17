@@ -1,6 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
 import User from "./user";
-import "reflect-metadata";
 
 @ObjectType()
 class Event {

@@ -23,7 +23,7 @@ class EventResolver {
     const { title, description, price, date } = eventInput;
     let createdEvent;
     try {
-      const creator = await UserModel.findById(ctx.userId);
+      const creator = await UserModel.findById(ctx.user._id);
       if (!creator) {
         throw new Error("User not found");
       }

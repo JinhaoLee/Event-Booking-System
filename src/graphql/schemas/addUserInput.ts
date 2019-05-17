@@ -7,7 +7,7 @@ class AddUserInput implements Partial<User> {
   email: string;
 
   @Field()
-  passowrd: string;
+  password: string;
 }
 
 export default AddUserInput;

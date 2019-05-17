@@ -13,3 +13,4 @@ export { default as User } from "./user";
 export { default as Booking } from "./booking";
 export { default as AddEventInput } from "./addEventInput";
 export { default as AddUserInput } from "./addUserInput";
+export { default as LoginResponse } from "./loginResponse";
