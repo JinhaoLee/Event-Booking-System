@@ -1,5 +1,5 @@
 import { IUser } from "./../interfaces";
-import { Schema, Document, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const userSchema: Schema = new Schema({
   email: {
@@ -23,6 +23,6 @@ const userSchema: Schema = new Schema({
   ]
 });
 
-const userModel = model<IUser & Document>("User", userSchema);
+const userModel = model<IUser>("User", userSchema);
 
 export default userModel;

@@ -1,5 +1,5 @@
 import { IBooking } from "./../interfaces";
-import { Schema, Document, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const bookingSchema = new Schema({
   event: {
@@ -17,6 +17,6 @@ const bookingSchema = new Schema({
   }
 });
 
-const bookingModel = model<IBooking & Document>("Booking", bookingSchema);
+const bookingModel = model<IBooking>("Booking", bookingSchema);
 
 export default bookingModel;

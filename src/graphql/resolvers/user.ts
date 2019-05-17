@@ -11,16 +11,6 @@ import jwt from "jsonwebtoken";
 
 @Resolver(User)
 class UserResolver {
-  // @Query(returns => [User])
-  // async users(): Promise<User[]> {
-  //   try {
-  //     const users = await UserModel.find();
-  //     return users;
-  //   } catch (error) {
-  //     throw new Error();
-  //   }
-  // }
-
   @Query(returns => RegisterResponse)
   async register(
     @Arg("userInput") userInput: AddUserInput
