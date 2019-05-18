@@ -1,6 +1,6 @@
-import { Event } from ".";
-import { Field, ObjectType, ID, InputType } from "type-graphql";
-import "reflect-metadata";
+import { Event } from '.';
+import { Field, ObjectType, ID, InputType } from 'type-graphql';
+import 'reflect-metadata';
 
 @ObjectType()
 class User {
@@ -20,7 +20,7 @@ class User {
   events: Event[];
 }
 
-@InputType({ description: "New user data" })
+@InputType({ description: 'New user data' })
 class AddUserInput implements Partial<User> {
   @Field()
   email: string;

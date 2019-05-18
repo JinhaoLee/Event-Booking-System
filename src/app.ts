@@ -1,12 +1,12 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import { ApolloServer } from "apollo-server";
-import { buildSchema } from "type-graphql";
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import { ApolloServer } from 'apollo-server';
+import { buildSchema } from 'type-graphql';
 
-import { IUser } from "./interfaces";
-import { IContext } from "./interfaces";
-import { EventResolver, UserResolver, BookingResolver } from "./graphql";
-import getUser from "./helpers/getUser";
+import { IUser } from './interfaces';
+import { IContext } from './interfaces';
+import { EventResolver, UserResolver, BookingResolver } from './graphql';
+import getUser from './helpers/getUser';
 
 class App {
   private PORT: string | number;
@@ -26,7 +26,6 @@ class App {
     mongoose.connect(`${MONGO_PATH}`, {
       useNewUrlParser: true
     });
-    console.log("database connected!");
   }
 
   public async startServer() {
@@ -38,8 +37,8 @@ class App {
     const server = new ApolloServer({
       schema,
       context: ({ req }): IContext => {
-        const tokenWithBearer = req.headers.authorization || "";
-        const token = tokenWithBearer.split(" ")[1];
+        const tokenWithBearer = req.headers.authorization || '';
+        const token = tokenWithBearer.split(' ')[1];
         const user = <IUser>getUser(token);
         return { user };
       },

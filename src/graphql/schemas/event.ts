@@ -1,7 +1,7 @@
-import { Field, ObjectType, InputType, Float, ID } from "type-graphql";
-import { User } from ".";
-import { Min } from "class-validator";
-import "reflect-metadata";
+import { Field, ObjectType, InputType, Float, ID } from 'type-graphql';
+import { User } from '.';
+import { Min } from 'class-validator';
+import 'reflect-metadata';
 
 @ObjectType()
 class Event {
@@ -25,7 +25,7 @@ class Event {
   creator: User;
 }
 
-@InputType({ description: "New event data" })
+@InputType({ description: 'New event data' })
 class AddEventInput implements Partial<Event> {
   @Field()
   title: string;

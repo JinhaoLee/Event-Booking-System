@@ -1,8 +1,8 @@
-import { Arg, Query, Resolver, Mutation, Ctx } from "type-graphql";
-import { UserModel, EventModel } from "../../models";
-import { AddEventInput, Event } from "../schemas";
-import { IContext } from "./../../interfaces";
-import { ObjectId } from "mongodb";
+import { Arg, Query, Resolver, Mutation, Ctx } from 'type-graphql';
+import { UserModel, EventModel } from '../../models';
+import { AddEventInput, Event } from '../schemas';
+import { IContext } from './../../interfaces';
+import { ObjectId } from 'mongodb';
 
 @Resolver(Event)
 class EventResolver {
@@ -10,30 +10,27 @@ class EventResolver {
   async events(@Ctx() ctx: IContext) {
     const { user } = ctx;
     if (!user) {
-      throw new Error("you must be logged in to query this schema");
+      throw new Error('you must be logged in to query this schema');
     }
     try {
-      return await EventModel.find().populate("creator", "_id email");
+      return await EventModel.find().populate('creator', '_id email');
     } catch (error) {
       throw new Error(error);
     }
   }
 
   @Mutation(returns => Event)
-  async createEvent(
-    @Arg("eventInput") eventInput: AddEventInput,
-    @Ctx() ctx: IContext
-  ) {
+  async createEvent(@Arg('eventInput') eventInput: AddEventInput, @Ctx() ctx: IContext) {
     const { user } = ctx;
     if (!user) {
-      throw new Error("you must be logged in to query this schema");
+      throw new Error('you must be logged in to query this schema');
     }
     const { title, description, price, date } = eventInput;
     let createdEvent;
     try {
       const creator = await UserModel.findById(user._id);
       if (!creator) {
-        throw new Error("User not found");
+        throw new Error('User not found');
       }
       // create a new event model
       const event = new EventModel({
@@ -42,7 +39,7 @@ class EventResolver {
         price,
         date,
         creator
-      }).populate("user");
+      }).populate('user');
       // add this event to creator's events
       creator.events = [...creator.events, new ObjectId(event._id)];
       // save this event

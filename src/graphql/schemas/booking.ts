@@ -1,7 +1,7 @@
-import { ObjectId } from "mongodb";
-import { ObjectType, Field, ID } from "type-graphql";
-import { User, Event } from ".";
-import "reflect-metadata";
+import { ObjectId } from 'mongodb';
+import { ObjectType, Field, ID } from 'type-graphql';
+import { User, Event } from '.';
+import 'reflect-metadata';
 
 @ObjectType()
 class Booking {
