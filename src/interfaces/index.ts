@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 import { Document } from "mongoose";
 
 export interface IUser extends Document {
-  _id: string;
+  _id: ObjectId;
   email: string;
   password: string;
   createdAt: Date;
@@ -10,7 +10,7 @@ export interface IUser extends Document {
 }
 
 export interface IEvent extends Document {
-  _id: string;
+  _id: ObjectId;
   title: string;
   description: string;
   price: number;
@@ -19,7 +19,7 @@ export interface IEvent extends Document {
 }
 
 export interface IBooking extends Document {
-  _id: string;
+  _id: ObjectId;
   event: ObjectId;
   user: ObjectId;
   createdAt: Date;

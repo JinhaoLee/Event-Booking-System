@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { ObjectType, Field, ID } from "type-graphql";
 import { User, Event } from ".";
 import "reflect-metadata";
@@ -5,7 +6,7 @@ import "reflect-metadata";
 @ObjectType()
 class Booking {
   @Field(type => ID)
-  _id: string;
+  _id: ObjectId;
 
   @Field(type => Event)
   event: Event;

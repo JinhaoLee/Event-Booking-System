@@ -7,16 +7,15 @@ import { ObjectId } from "mongodb";
 @Resolver(Event)
 class EventResolver {
   @Query(returns => [Event])
-  async events(@Ctx() ctx: IContext): Promise<Event[]> {
+  async events(@Ctx() ctx: IContext) {
     const { user } = ctx;
     if (!user) {
       throw new Error("you must be logged in to query this schema");
     }
     try {
-      // @ts-ignore
       return await EventModel.find().populate("creator", "_id email");
     } catch (error) {
-      throw new Error();
+      throw new Error(error);
     }
   }
 
@@ -24,7 +23,7 @@ class EventResolver {
   async createEvent(
     @Arg("eventInput") eventInput: AddEventInput,
     @Ctx() ctx: IContext
-  ): Promise<Event> {
+  ) {
     const { user } = ctx;
     if (!user) {
       throw new Error("you must be logged in to query this schema");
@@ -36,6 +35,7 @@ class EventResolver {
       if (!creator) {
         throw new Error("User not found");
       }
+      // create a new event model
       const event = new EventModel({
         title,
         description,
@@ -43,10 +43,12 @@ class EventResolver {
         date,
         creator
       }).populate("user");
+      // add this event to creator's events
       creator.events = [...creator.events, new ObjectId(event._id)];
+      // save this event
       createdEvent = await event.save();
+      // save this event to creator's events
       await creator.save();
-      // @ts-ignore
       return createdEvent;
     } catch (error) {
       throw new Error(error);

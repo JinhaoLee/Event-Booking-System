@@ -26,6 +26,7 @@ class App {
     mongoose.connect(`${MONGO_PATH}`, {
       useNewUrlParser: true
     });
+    console.log("database connected!");
   }
 
   public async startServer() {
@@ -40,9 +41,7 @@ class App {
         const tokenWithBearer = req.headers.authorization || "";
         const token = tokenWithBearer.split(" ")[1];
         const user = <IUser>getUser(token);
-        return {
-          user
-        };
+        return { user };
       },
       playground: true
     });

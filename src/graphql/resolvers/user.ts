@@ -18,18 +18,19 @@ class UserResolver {
     try {
       const { email, password } = userInput;
       const existingUser = await UserModel.findOne({ email });
+      // if the user exists
       if (existingUser) {
         throw new Error("User exists already");
       }
+      // hash password
       const hashedPassword = await bcrypt.hash(password, 10);
       const user = new UserModel({
         email,
         password: hashedPassword
       });
+      // save user to the database
       await user.save();
-      return {
-        message: "success"
-      };
+      return { message: "success" };
     } catch (error) {
       throw new Error(error.message);
     }
@@ -42,12 +43,13 @@ class UserResolver {
     const { email, password } = userInput;
     const user = await UserModel.findOne({ email });
 
+    // if user email not found
     if (!user) {
       throw new Error("Invalid email");
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
-
+    // if the password matched
     if (!passwordMatch) {
       throw new Error("Invalid password");
     }
@@ -62,9 +64,7 @@ class UserResolver {
         expiresIn: "30d" // token will expire in 30days
       }
     );
-    return {
-      token
-    };
+    return { token };
   }
 }
 
