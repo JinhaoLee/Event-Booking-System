@@ -44,3 +44,8 @@ server.key
 package-lock.json
 .vscode/**
 tslint.json
+client/.prettierrc
+client/yarn.lock
+.eslintrc.json
+.prettierrc
+.gitignore
