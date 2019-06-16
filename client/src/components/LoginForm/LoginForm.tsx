@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, SyntheticEvent } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 
-export interface ILoginResponse {
-  data: {
-    login: {
-      token: string
-    }
+export interface Data {
+  login: {
+    token: string
+  }
+}
+
+export interface Variables {
+  userInput: {
+    email: string
+    password: string
   }
 }
 
@@ -33,23 +38,27 @@ const LoginForm = () => {
   }
 
   return (
-    <Mutation mutation={LOGIN_MUTATION}>
-      {(login: any) => (
+    <Mutation<Data, Variables> mutation={LOGIN_MUTATION}>
+      {login => (
         <Form
-          onSubmit={(e: any) => {
+          onSubmit={async (e: SyntheticEvent) => {
             e.preventDefault()
-            login({
-              variables: {
-                userInput: { email: form.email, password: form.password },
-              },
-            })
-              .then((res: ILoginResponse) => {
-                alert('login successful')
-                const token = res.data.login.token
-                console.log(token)
-                localStorage.setItem('token', token)
+            let response
+            try {
+              response = await login({
+                variables: {
+                  userInput: { email: form.email, password: form.password },
+                },
               })
-              .catch((err: Error) => alert(err.message))
+            } catch (error) {
+              alert(error.message)
+            }
+
+            if (response && response.data) {
+              const token = response.data.login.token
+              localStorage.setItem('token', token)
+              alert('login successful')
+            }
           }}
         >
           <Form.Group controlId="formBasicEmail">
